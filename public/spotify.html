@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spotify Integration Demo</title>
+  <style>
+    body {
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      color: #1DB954;
+    }
+    a {
+      color: #1DB954;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    ol {
+      margin-top: 1rem;
+    }
+    .step {
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1> Spotify API Demo</h1>
+  <p>This page shows how to interact with Spotify's Web API using your own account.</p>
+
+  <div class="step">
+    <strong>Step 1:</strong> 
+    <a href="/spotify/login" target="_blank">Login with Spotify (PKCE Flow)</a><br/>
+    <small>This opens the login in a new tab and authorizes the app.</small>
+  </div>
+
+  <div class="step">
+    <strong>Step 2:</strong> After logging in successfully, you can visit:<br/>
+    <ol>
+      <li><a href="/spotify/top" target="_blank"> View Top Tracks</a></li>
+      <li><a href="/spotify/current" target="_blank"> View Current Playback</a></li>
+      <li><a href="/spotify/pause" target="_blank"> Pause Playback</a></li>
+      <li><a href="/spotify/play?uri=spotify:track:6kYoY0PhBelP64UMnhsEZx" target="_blank"> Play Specific Track</a></li>
+    </ol>
+  </div>
+
+  <div class="step">
+    <strong>Notes:</strong>
+    <ul>
+      <li>Control Playback does not work as it requires Spotify <b>Premium</b></li>
+      <li>App runs at <code>http://localhost:8888</code> or your deployed URL.</li>
+      <li>Access tokens expire hourly, but we refresh them automatically using the refresh token.</li>
+    </ul>
+  </div>
+</body>
+</html>
