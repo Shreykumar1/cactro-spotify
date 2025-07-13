@@ -5,6 +5,7 @@ import {
   exchangeCodeForTokens,
   getAccessToken,
   isAuthenticated,
+  logout,
   REDIRECT_URI
 } from '../services/spotifyService';
 import axios from 'axios';
@@ -37,7 +38,7 @@ export async function callback(req: Request, res: Response) {
     res.send(`
       <h2>Success! 🎉</h2>
       <p>Access token saved and server ready.</p>
-      <p>Top </p>
+      <p><strong>✅ Authentication is now persistent!</strong> You can use the API endpoints without logging in again.</p>
       <p>Use <code>/spotify/top</code>, <code>/spotify/current</code>, <code>/spotify/pause</code>, <code>/spotify/play?uri=...</code></p>
       
       <h3>API Endpoints:</h3>
@@ -47,9 +48,21 @@ export async function callback(req: Request, res: Response) {
         <li><a href="/spotify/current" target="_blank">Current Track</a> - Get currently playing track</li>
         <li><a href="/spotify/pause" target="_blank">Pause</a> - Pause playback (PUT request)</li>
         <li><a href="/spotify/play?uri=spotify:track:4iV5W9uYEdYUVa79Axb7Rh" target="_blank">Play Track</a> - Play a specific track (PUT request)</li>
+        <li><a href="/spotify/logout" target="_blank">Logout</a> - Clear authentication</li>
+      </ul>
+      
+      <h3>Direct API URLs:</h3>
+      <ul>
+        <li><code>http://127.0.0.1:8888/spotify/status</code></li>
+        <li><code>http://127.0.0.1:8888/spotify/top</code></li>
+        <li><code>http://127.0.0.1:8888/spotify/current</code></li>
+        <li><code>http://127.0.0.1:8888/spotify/pause</code> (PUT)</li>
+        <li><code>http://127.0.0.1:8888/spotify/play?uri=spotify:track:4iV5W9uYEdYUVa79Axb7Rh</code> (PUT)</li>
+        <li><code>http://127.0.0.1:8888/spotify/logout</code></li>
       </ul>
       
       <p><strong>Note:</strong> For play/pause endpoints, you'll need to use a tool like Postman or curl since they require PUT requests.</p>
+      <p><strong>🔒 Security:</strong> Your authentication tokens are stored locally and will persist until you logout or restart the server.</p>
     `);
   } catch (error) {
     console.error('Callback error:', error);
@@ -163,5 +176,13 @@ export async function status(req: Request, res: Response) {
   res.json({ 
     authenticated: isAuthenticated(),
     message: isAuthenticated() ? 'Ready to use Spotify API' : 'Please login first'
+  });
+}
+
+export async function logoutHandler(req: Request, res: Response) {
+  logout();
+  res.json({ 
+    success: true,
+    message: 'Logged out successfully. You can login again at /spotify/login'
   });
 }
